@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to djcb's Website</title>
+    <title>avilosoamaze — Live</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,152 +14,160 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-deep: #0d0d12;
+            --bg-card: #16161d;
+            --accent: #e63946;
+            --accent-glow: rgba(230, 57, 70, 0.35);
+            --text: #e8e8ec;
+            --text-muted: #8b8b9a;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #e0e0e0;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            background: rgba(30, 30, 46, 0.95);
-            padding: 3rem 2rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
-            margin: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        h1 {
-            color: #ffffff;
-            margin-bottom: 1rem;
-            font-size: 2.5rem;
-            font-weight: 300;
-        }
-
-        .subtitle {
-            color: #b0b0b0;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        .description {
-            color: #d0d0d0;
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-            line-height: 1.8;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            font-size: 1.1rem;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.4);
-        }
-
-        .features {
-            margin-top: 3rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature {
             padding: 1.5rem;
-            background: rgba(40, 40, 60, 0.8);
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .feature:hover {
-            transform: translateY(-5px);
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 1100px;
         }
 
-        .feature h3 {
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 0 20px var(--accent-glow);
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        .feature p {
-            color: #b0b0b0;
-            font-size: 0.9rem;
+        .live-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1s ease-in-out infinite;
         }
 
-        .emoji {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: block;
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+            50% { box-shadow: 0 0 28px var(--accent-glow); }
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .header h1 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 600;
+            color: white;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 300;
+            margin-top: 0.25rem;
+        }
+
+        .stream-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .embed-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
             }
 
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .description {
-                font-size: 1rem;
+            .stream-wrapper {
+                border-radius: 12px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>avilosoamaze's website</h1>
-        <p class="subtitle">Your First Code Repository Test</p>
-        <p class="description">
-            This is a simple landing page built with GitHub Pages. 
-            It's clean, responsive, and ready to be customized with your content.
-        </p>
-        
-        <a href="#" class="cta-button">Get Started</a>
-        
-        <div class="features">
-            <div class="feature">
-                <span class="emoji">🚀</span>
-                <h3>Fast & Lightweight</h3>
-                <p>Optimized for speed and performance</p>
-            </div>
-            <div class="feature">
-                <span class="emoji">📱</span>
-                <h3>Mobile Friendly</h3>
-                <p>Responsive design for all devices</p>
-            </div>
-            <div class="feature">
-                <span class="emoji">🎨</span>
-                <h3>Modern Design</h3>
-                <p>Clean and professional appearance</p>
-            </div>
+    <header class="header">
+        <div class="live-badge">LIVE</div>
+        <h1>avilosoamaze</h1>
+        <p>Watch the stream</p>
+    </header>
+
+    <main class="stream-wrapper">
+        <div class="embed-container">
+            <!-- Replace YOUR_VIDEO_ID with your YouTube live stream ID or video ID -->
+            <!-- Live stream: use the ID from your stream URL, e.g. youtube.com/watch?v=ABC123 -->
+            <iframe
+                src="https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=0"
+                title="YouTube Live Stream"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
         </div>
-    </div>
+    </main>
+
+    <footer class="footer">
+        Stream powered by YouTube
+    </footer>
 </body>
 </html>
-
