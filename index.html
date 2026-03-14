@@ -181,6 +181,7 @@
             var CHANNEL_ID = 'UC-BfhcANk1t77i0F_qQPp9g';
             var LIVE_PAGE_URL = 'https://www.youtube.com/avilosoamaze/live';
             var RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
+            var LIVE_EMBED_URL = 'https://www.youtube.com/embed/live_stream?channel=' + CHANNEL_ID;
             var CORS_PROXY = 'https://api.allorigins.win/raw?url=';
             var iframe = document.getElementById('yt-embed');
             var label = document.getElementById('embed-label');
@@ -194,6 +195,7 @@
             function getLatestVideoId(cb) {
                 var req = new XMLHttpRequest();
                 req.open('GET', CORS_PROXY + encodeURIComponent(RSS_URL), true);
+                req.timeout = 8000;
                 req.onload = function () {
                     var id = null;
                     if (req.status === 200) {
@@ -211,37 +213,52 @@
                     cb(id);
                 };
                 req.onerror = function () { cb(null); };
+                req.ontimeout = function () { cb(null); };
                 req.send();
             }
 
             function isStreamLive(cb) {
                 var req = new XMLHttpRequest();
                 req.open('GET', CORS_PROXY + encodeURIComponent(LIVE_PAGE_URL), true);
+                req.timeout = 8000;
                 req.onload = function () {
-                    if (req.status !== 200) {
-                        return cb(false);
-                    }
+                    if (req.status !== 200) return cb(false);
                     var html = req.responseText;
-                    var offline = /LIVE_STREAM_OFFLINE|"liveStreamability":\s*\{[^}]*"status":\s*"LIVE_STREAM_OFFLINE"|Stream is offline|This stream is offline/i.test(html);
+                    var offline = /LIVE_STREAM_OFFLINE|Stream is offline|This stream is offline|"status":\s*"LIVE_STREAM_OFFLINE"/i.test(html);
                     cb(!offline);
                 };
                 req.onerror = function () { cb(false); };
+                req.ontimeout = function () { cb(false); };
                 req.send();
             }
 
-            isStreamLive(function (live) {
-                if (live) {
-                    setEmbed('https://www.youtube.com/embed/live_stream?channel=' + CHANNEL_ID, true);
-                } else {
-                    getLatestVideoId(function (videoId) {
-                        if (videoId) {
-                            setEmbed('https://www.youtube.com/embed/' + videoId, false);
-                        } else {
-                            setEmbed('https://www.youtube.com/embed/live_stream?channel=' + CHANNEL_ID, true);
-                        }
-                    });
+            function run() {
+                var latestVideoId = null;
+                var liveResult = null;
+                var hasLatest = false;
+                var hasLive = false;
+                function apply() {
+                    if (!hasLatest || !hasLive) return;
+                    if (liveResult === true) {
+                        setEmbed(LIVE_EMBED_URL, true);
+                    } else if (latestVideoId) {
+                        setEmbed('https://www.youtube.com/embed/' + latestVideoId, false);
+                    } else {
+                        setEmbed(LIVE_EMBED_URL, true);
+                    }
                 }
-            });
+                getLatestVideoId(function (id) {
+                    latestVideoId = id || null;
+                    hasLatest = true;
+                    apply();
+                });
+                isStreamLive(function (live) {
+                    liveResult = live;
+                    hasLive = true;
+                    apply();
+                });
+            }
+            run();
         })();
     </script>
 </body>
