@@ -197,8 +197,16 @@
                 req.onload = function () {
                     var id = null;
                     if (req.status === 200) {
-                        var match = req.responseText.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
-                        if (match) id = match[1];
+                        var text = req.responseText;
+                        var firstEntry = text.match(/<entry>[\s\S]*?<\/entry>/);
+                        if (firstEntry) {
+                            var vidMatch = firstEntry[0].match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+                            if (vidMatch) id = vidMatch[1];
+                        }
+                        if (!id) {
+                            var fallback = text.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+                            if (fallback) id = fallback[1];
+                        }
                     }
                     cb(id);
                 };
