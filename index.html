@@ -118,6 +118,13 @@
             border: none;
         }
 
+        .embed-label {
+            padding: 0.75rem 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
         .footer {
             margin-top: 1.5rem;
             text-align: center;
@@ -155,18 +162,79 @@
 
     <main class="stream-wrapper">
         <div class="embed-container">
-            <!-- Livestream: https://youtube.com/avilosoamaze/live -->
             <iframe
-                src="https://www.youtube.com/avilosoamaze/live"
+                id="yt-embed"
                 title="avilosoamaze — YouTube Live"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen>
             </iframe>
         </div>
+        <p id="embed-label" class="embed-label"></p>
     </main>
 
     <footer class="footer">
         <a href="https://youtube.com/avilosoamaze/live" target="_blank" rel="noopener">Watch on YouTube</a> · Stream powered by YouTube
     </footer>
+
+    <script>
+        (function () {
+            var CHANNEL_ID = 'UC-BfhcANk1t77i0F_qQPp9gD';
+            var LIVE_PAGE_URL = 'https://www.youtube.com/avilosoamaze/live';
+            var RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
+            var CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+            var iframe = document.getElementById('yt-embed');
+            var label = document.getElementById('embed-label');
+
+            function setEmbed(url, isLive) {
+                iframe.src = url;
+                label.textContent = isLive ? 'Live now' : 'Latest upload (stream is offline)';
+                label.style.display = 'block';
+            }
+
+            function getLatestVideoId(cb) {
+                var req = new XMLHttpRequest();
+                req.open('GET', CORS_PROXY + encodeURIComponent(RSS_URL), true);
+                req.onload = function () {
+                    var id = null;
+                    if (req.status === 200) {
+                        var match = req.responseText.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+                        if (match) id = match[1];
+                    }
+                    cb(id);
+                };
+                req.onerror = function () { cb(null); };
+                req.send();
+            }
+
+            function isStreamLive(cb) {
+                var req = new XMLHttpRequest();
+                req.open('GET', CORS_PROXY + encodeURIComponent(LIVE_PAGE_URL), true);
+                req.onload = function () {
+                    if (req.status !== 200) {
+                        return cb(false);
+                    }
+                    var html = req.responseText;
+                    var offline = /LIVE_STREAM_OFFLINE|"liveStreamability":\s*\{[^}]*"status":\s*"LIVE_STREAM_OFFLINE"|Stream is offline|This stream is offline/i.test(html);
+                    cb(!offline);
+                };
+                req.onerror = function () { cb(false); };
+                req.send();
+            }
+
+            isStreamLive(function (live) {
+                if (live) {
+                    setEmbed('https://www.youtube.com/embed/live_stream?channel=' + CHANNEL_ID, true);
+                } else {
+                    getLatestVideoId(function (videoId) {
+                        if (videoId) {
+                            setEmbed('https://www.youtube.com/embed/' + videoId, false);
+                        } else {
+                            setEmbed('https://www.youtube.com/embed/live_stream?channel=' + CHANNEL_ID, true);
+                        }
+                    });
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
