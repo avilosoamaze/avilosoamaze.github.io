@@ -118,13 +118,6 @@
             border: none;
         }
 
-        .embed-label {
-            padding: 0.75rem 1rem 0;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 300;
-        }
-
         .footer {
             margin-top: 1.5rem;
             text-align: center;
@@ -163,103 +156,17 @@
     <main class="stream-wrapper">
         <div class="embed-container">
             <iframe
-                id="yt-embed"
-                title="avilosoamaze — YouTube Live"
+                src="https://www.youtube.com/embed/DQkmqwSB_08"
+                title="avilosoamaze — YouTube"
+                referrerpolicy="strict-origin-when-cross-origin"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen>
             </iframe>
         </div>
-        <p id="embed-label" class="embed-label"></p>
     </main>
 
     <footer class="footer">
         <a href="https://youtube.com/avilosoamaze/live" target="_blank" rel="noopener">Watch on YouTube</a> · Stream powered by YouTube
     </footer>
-
-    <script>
-        (function () {
-            var CHANNEL_ID = 'UC-BfhcANk1t77i0F_qQPp9g';
-            var LIVE_PAGE_URL = 'https://www.youtube.com/avilosoamaze/live';
-            var RSS_URL = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
-            var LIVE_EMBED_URL = 'https://www.youtube.com/embed/live_stream?channel=' + CHANNEL_ID;
-            var CORS_PROXY = 'https://api.allorigins.win/raw?url=';
-            var iframe = document.getElementById('yt-embed');
-            var label = document.getElementById('embed-label');
-
-            function setEmbed(url, isLive) {
-                iframe.src = url;
-                label.textContent = isLive ? 'Live now' : 'Latest upload (stream is offline)';
-                label.style.display = 'block';
-            }
-
-            function getLatestVideoId(cb) {
-                var req = new XMLHttpRequest();
-                req.open('GET', CORS_PROXY + encodeURIComponent(RSS_URL), true);
-                req.timeout = 8000;
-                req.onload = function () {
-                    var id = null;
-                    if (req.status === 200) {
-                        var text = req.responseText;
-                        var firstEntry = text.match(/<entry>[\s\S]*?<\/entry>/);
-                        if (firstEntry) {
-                            var vidMatch = firstEntry[0].match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
-                            if (vidMatch) id = vidMatch[1];
-                        }
-                        if (!id) {
-                            var fallback = text.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
-                            if (fallback) id = fallback[1];
-                        }
-                    }
-                    cb(id);
-                };
-                req.onerror = function () { cb(null); };
-                req.ontimeout = function () { cb(null); };
-                req.send();
-            }
-
-            function isStreamLive(cb) {
-                var req = new XMLHttpRequest();
-                req.open('GET', CORS_PROXY + encodeURIComponent(LIVE_PAGE_URL), true);
-                req.timeout = 8000;
-                req.onload = function () {
-                    if (req.status !== 200) return cb(false);
-                    var html = req.responseText;
-                    var offline = /LIVE_STREAM_OFFLINE|Stream is offline|This stream is offline|"status":\s*"LIVE_STREAM_OFFLINE"/i.test(html);
-                    cb(!offline);
-                };
-                req.onerror = function () { cb(false); };
-                req.ontimeout = function () { cb(false); };
-                req.send();
-            }
-
-            function run() {
-                var latestVideoId = null;
-                var liveResult = null;
-                var hasLatest = false;
-                var hasLive = false;
-                function apply() {
-                    if (!hasLatest || !hasLive) return;
-                    if (liveResult === true) {
-                        setEmbed(LIVE_EMBED_URL, true);
-                    } else if (latestVideoId) {
-                        setEmbed('https://www.youtube.com/embed/' + latestVideoId, false);
-                    } else {
-                        setEmbed(LIVE_EMBED_URL, true);
-                    }
-                }
-                getLatestVideoId(function (id) {
-                    latestVideoId = id || null;
-                    hasLatest = true;
-                    apply();
-                });
-                isStreamLive(function (live) {
-                    liveResult = live;
-                    hasLive = true;
-                    apply();
-                });
-            }
-            run();
-        })();
-    </script>
 </body>
 </html>
