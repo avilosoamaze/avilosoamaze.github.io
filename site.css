@@ -25,9 +25,44 @@
     font-size: 1rem;
     text-decoration: none;
     letter-spacing: -0.02em;
+    flex-shrink: 0;
 }
 
 .nav-brand:hover {
+    color: var(--accent, #e63946);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+.nav-top-links {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    flex-wrap: wrap;
+}
+
+.nav-top-links a {
+    color: var(--text-muted, #8b8b9a);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.4rem 0.65rem;
+    border-radius: 6px;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.nav-top-links a:hover {
+    color: var(--text, #e8e8ec);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-top-links a[aria-current="page"] {
     color: var(--accent, #e63946);
 }
 
@@ -40,33 +75,37 @@
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.45rem 0.75rem;
+    justify-content: center;
+    padding: 0.5rem 0.65rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
     border-radius: 8px;
     color: var(--text, #e8e8ec);
     font-family: inherit;
-    font-size: 0.9rem;
-    font-weight: 500;
 }
 
 .nav-dropdown summary::-webkit-details-marker {
     display: none;
 }
 
-.nav-dropdown summary::after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid var(--text-muted, #8b8b9a);
-    transition: transform 0.2s ease;
+/* Hamburger icon (3 lines) */
+.nav-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 20px;
+    height: 14px;
+    pointer-events: none;
 }
 
-.nav-dropdown[open] summary::after {
-    transform: rotate(180deg);
+.nav-hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 1px;
 }
 
 .nav-dropdown summary:hover {
@@ -103,10 +142,16 @@
     color: var(--accent, #e63946);
 }
 
+@media (max-width: 768px) {
+    .nav-top-links {
+        display: none;
+    }
+}
+
 @media (max-width: 480px) {
     .nav-inner {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        align-items: center;
     }
 
     .nav-menu {

@@ -72,15 +72,25 @@
         <nav class="site-nav" aria-label="Main">
             <div class="nav-inner">
                 <a class="nav-brand" href="index.html">avilosoamaze</a>
-                <details class="nav-dropdown">
-                    <summary>Pages</summary>
-                    <ul class="nav-menu" role="list">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="guides.html" aria-current="page">Guides</a></li>
-                        <li><a href="youtube-videos.html">Youtube Videos</a></li>
-                        <li><a href="links.html">Links</a></li>
-                    </ul>
-                </details>
+                <div class="nav-right">
+                    <nav class="nav-top-links" aria-label="Site sections">
+                        <a href="index.html">Home</a>
+                        <a href="guides.html" aria-current="page">Guides</a>
+                        <a href="youtube-videos.html">Youtube Videos</a>
+                        <a href="links.html">Links</a>
+                    </nav>
+                    <details class="nav-dropdown">
+                        <summary aria-label="Open menu">
+                            <span class="nav-hamburger" aria-hidden="true"><span></span><span></span><span></span></span>
+                        </summary>
+                        <ul class="nav-menu" role="list">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="guides.html" aria-current="page">Guides</a></li>
+                            <li><a href="youtube-videos.html">Youtube Videos</a></li>
+                            <li><a href="links.html">Links</a></li>
+                        </ul>
+                    </details>
+                </div>
             </div>
         </nav>
 
