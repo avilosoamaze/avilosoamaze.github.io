@@ -37,6 +37,7 @@
 .nav-right {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.65rem;
     flex-wrap: wrap;
     flex: 1 1 auto;
@@ -118,8 +119,8 @@
 
 .nav-menu {
     position: absolute;
-    left: 0;
-    right: auto;
+    left: auto;
+    right: 0;
     top: calc(100% + 0.35rem);
     min-width: 200px;
     width: max-content;
@@ -158,6 +159,11 @@
     .nav-inner {
         gap: 0.5rem;
     }
+
+    /* Only hamburger in .nav-right — pin it to the far right of the bar */
+    .nav-right {
+        justify-content: flex-end;
+    }
 }
 
 @media (max-width: 480px) {
@@ -167,10 +173,10 @@
         padding: 0.55rem 0.75rem;
     }
 
-    /* Keep menu on-screen: align to hamburger, cap width to viewport */
+    /* Menu opens from the right edge of the button; cap width to viewport */
     .nav-menu {
-        left: 0;
-        right: auto;
+        left: auto;
+        right: 0;
         width: min(92vw, 280px);
         max-width: calc(100vw - 1.5rem);
         min-width: 180px;
