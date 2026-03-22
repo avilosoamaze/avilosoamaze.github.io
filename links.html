@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links — avilosoamaze</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
+    <style>
+        :root {
+            --bg-deep: #0d0d12;
+            --bg-card: #16161d;
+            --accent: #e63946;
+            --text: #e8e8ec;
+            --text-muted: #8b8b9a;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        .page-wrap { width: 100%; max-width: 1100px; }
+        .page-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .page-card h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+        .page-card p {
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+        .link-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .link-list li {
+            border-bottom: 1px solid var(--border);
+        }
+        .link-list li:last-child { border-bottom: none; }
+        .link-list a {
+            display: block;
+            padding: 0.85rem 0;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .link-list a:hover { text-decoration: underline; }
+        .link-list span {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-top: 0.15rem;
+        }
+        .footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="page-wrap">
+        <nav class="site-nav" aria-label="Main">
+            <div class="nav-inner">
+                <a class="nav-brand" href="index.html">avilosoamaze</a>
+                <details class="nav-dropdown">
+                    <summary>Pages</summary>
+                    <ul class="nav-menu" role="list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="guides.html">Guides</a></li>
+                        <li><a href="youtube-videos.html">Youtube Videos</a></li>
+                        <li><a href="links.html" aria-current="page">Links</a></li>
+                    </ul>
+                </details>
+            </div>
+        </nav>
+
+        <main class="page-card">
+            <h1>Links</h1>
+            <p>Quick links you want to share. Edit this list in <code style="color: var(--text);">links.html</code>.</p>
+            <ul class="link-list">
+                <li>
+                    <a href="https://youtube.com/avilosoamaze" target="_blank" rel="noopener">
+                        YouTube channel
+                        <span>youtube.com/avilosoamaze</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/avilosoamaze" target="_blank" rel="noopener">
+                        GitHub
+                        <span>Add your profile or repos</span>
+                    </a>
+                </li>
+            </ul>
+        </main>
+
+        <footer class="footer">
+            <a href="index.html">Home</a> · avilosoamaze
+        </footer>
+    </div>
+</body>
+</html>

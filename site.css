@@ -1,0 +1,117 @@
+/* Shared navigation + layout (avilosoamaze.github.io) */
+
+.site-nav {
+    width: 100%;
+    max-width: 1100px;
+    margin-bottom: 1rem;
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0.65rem 1rem;
+    background: var(--bg-card, #16161d);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.nav-brand {
+    color: var(--text, #e8e8ec);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+}
+
+.nav-brand:hover {
+    color: var(--accent, #e63946);
+}
+
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.75rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+    border-radius: 8px;
+    color: var(--text, #e8e8ec);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.nav-dropdown summary::-webkit-details-marker {
+    display: none;
+}
+
+.nav-dropdown summary::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--text-muted, #8b8b9a);
+    transition: transform 0.2s ease;
+}
+
+.nav-dropdown[open] summary::after {
+    transform: rotate(180deg);
+}
+
+.nav-dropdown summary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.35rem);
+    min-width: 200px;
+    margin: 0;
+    padding: 0.35rem 0;
+    list-style: none;
+    background: var(--bg-card, #16161d);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    z-index: 100;
+}
+
+.nav-menu li a {
+    display: block;
+    padding: 0.55rem 1rem;
+    color: var(--text, #e8e8ec);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.nav-menu li a:hover,
+.nav-menu li a[aria-current="page"] {
+    background: rgba(230, 57, 70, 0.15);
+    color: var(--accent, #e63946);
+}
+
+@media (max-width: 480px) {
+    .nav-inner {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav-menu {
+        right: auto;
+        left: 0;
+        width: 100%;
+    }
+}
