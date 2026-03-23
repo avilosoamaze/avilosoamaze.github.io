@@ -42,11 +42,16 @@
             padding: 1.5rem;
         }
 
+        /* Match wider main embed row */
+        body > .site-nav {
+            max-width: 1200px;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 1.5rem;
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
         }
 
         .live-badge {
@@ -100,12 +105,25 @@
 
         .stream-wrapper {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
+            margin: 0 auto;
             background: var(--bg-card);
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid var(--border);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .embed-layout {
+            display: grid;
+            grid-template-columns: 1fr minmax(280px, 340px);
+            align-items: stretch;
+            gap: 0;
+            min-height: 0;
+        }
+
+        .embed-video-col {
+            min-width: 0;
         }
 
         .embed-container {
@@ -125,6 +143,21 @@
             border: none;
         }
 
+        .embed-chat-col {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            background: #0a0a0f;
+            border-left: 1px solid var(--border);
+        }
+
+        .embed-chat-col iframe {
+            flex: 1;
+            width: 100%;
+            min-height: 280px;
+            border: none;
+        }
+
         .footer {
             margin-top: 1.5rem;
             text-align: center;
@@ -140,6 +173,21 @@
 
         .footer a:hover {
             text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .embed-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .embed-chat-col {
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+
+            .embed-chat-col iframe {
+                min-height: 360px;
+            }
         }
 
         @media (max-width: 640px) {
@@ -186,14 +234,26 @@
     </header>
 
     <main class="stream-wrapper">
-        <div class="embed-container">
-            <iframe
-                src="https://www.youtube.com/embed/0dOVArK_mM4"
-                title="avilosoamaze — YouTube"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-            </iframe>
+        <div class="embed-layout">
+            <div class="embed-video-col">
+                <div class="embed-container">
+                    <iframe
+                        src="https://www.youtube.com/embed/0dOVArK_mM4"
+                        title="avilosoamaze — YouTube"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="embed-chat-col">
+                <!-- embed_domain is set from the page origin so .live / .com / .org / .net / github.io all work -->
+                <iframe
+                    id="yt-live-chat"
+                    title="YouTube live chat"
+                    allow="autoplay; encrypted-media">
+                </iframe>
+            </div>
         </div>
     </main>
 
@@ -201,5 +261,14 @@
         <a href="https://youtube.com/avilosoamaze/live" target="_blank" rel="noopener">Watch on YouTube</a> · Stream powered by YouTube
     </footer>
     <script src="site.js" defer></script>
+    <script>
+        (function () {
+            var el = document.getElementById('yt-live-chat');
+            if (!el) return;
+            var videoId = '0dOVArK_mM4';
+            var origin = window.location.origin;
+            el.src = 'https://www.youtube.com/live_chat?v=' + encodeURIComponent(videoId) + '&embed_domain=' + encodeURIComponent(origin);
+        })();
+    </script>
 </body>
 </html>
